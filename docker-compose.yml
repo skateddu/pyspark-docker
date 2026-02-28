@@ -1,0 +1,21 @@
+services:
+  pyspark:
+    build: .
+    ports:
+      - "${JUPYTER_PORT:-8888}:8888"
+      - "${SPARK_UI_PORT:-4040}:4040"
+    volumes:
+      - ./notebooks:/home/jovyan/notebooks
+      - ./data:/home/jovyan/data
+    environment:
+      - JUPYTER_TOKEN=${JUPYTER_TOKEN:-pyspark}
+      - SPARK_UI_PORT=${SPARK_UI_PORT:-4040}
+      - PYSPARK_PYTHON=python3
+      - PYSPARK_DRIVER_PYTHON=python3
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8888/api/status || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped

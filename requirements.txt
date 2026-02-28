@@ -1,0 +1,15 @@
+# =============================================================================
+# Additional Python libraries
+# =============================================================================
+
+# --- Visualization ---
+# matplotlib
+# seaborn
+
+# --- Machine Learning ---
+# scikit-learn
+# torch
+
+# --- Data ---
+# sqlalchemy
+# boto3
