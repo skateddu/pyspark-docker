@@ -1,5 +1,9 @@
 # PySpark + Jupyter Lab with Docker
 
+[![License: MIT](https://img.shields.io/github/license/skateddu/pyspark-docker)](LICENSE)
+[![Docker](https://img.shields.io/badge/Docker-ready-blue?logo=docker)](docker-compose.yml)
+[![Jupyter](https://img.shields.io/badge/Jupyter-Lab-orange?logo=jupyter)](https://jupyter.org/)
+
 A ready-to-use repository for **Big Data**, **Data Engineering** and **Machine Learning** students working with PySpark. The goal is to provide a fully configured environment with **PySpark** and **Jupyter Lab**, without having to install Java, Spark or deal with manual setup.
 
 ## What is Docker
