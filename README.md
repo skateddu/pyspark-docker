@@ -42,6 +42,7 @@ Docker lets you run applications inside **containers**: isolated environments th
 2. Open Docker Desktop from the Applications folder.
 
 3. Verify from the terminal:
+
    ```bash
    docker --version
    ```
@@ -104,6 +105,12 @@ docker compose up --build
 
 > **Note:** the Docker terminal will display a URL like `http://127.0.0.1:8888/lab?token=...` with an auto-generated token. That token **will not work**: the container is configured to use the token defined in the `.env` file (`pyspark` by default). Always use the URL shown above, or open `http://localhost:8888` and enter the token from your `.env` file when prompted.
 
+## Versions
+
+The image is pinned to `quay.io/jupyter/pyspark-notebook:spark-4.1.2` (Spark 4.1.2, Python 3.13), instead of floating `:latest`, so that everyone building this repo gets the same environment. Spark 4 is a major version bump from the 3.5.x line used when this repo was first created — the DataFrame/SQL APIs used in the example notebook are unaffected, but if you bring in older PySpark code, check it against the [Spark 4.0 migration notes](https://spark.apache.org/docs/latest/api/python/migration_guide/pyspark_upgrade.html) first.
+
+To upgrade later, pick a new tag from the [pyspark-notebook tags on quay.io](https://quay.io/repository/jupyter/pyspark-notebook?tab=tags), update the `FROM` line in `Dockerfile`, and rebuild with `docker compose up --build`.
+
 ## Adding Python libraries
 
 1. Open `requirements.txt`
@@ -165,17 +172,22 @@ When a SparkSession is active, you can monitor Spark jobs at:
 ## Troubleshooting
 
 ### Docker not running
-```
+
+```text
 Cannot connect to the Docker daemon
 ```
+
 Start Docker Desktop and try again.
 
 ### Port already in use
-```
+
+```text
 Bind for 0.0.0.0:8888 failed: port is already allocated
 ```
+
 Change `JUPYTER_PORT` in your `.env` file (e.g. `JUPYTER_PORT=8889`).
 
 ### Files not visible in the notebook
+
 Notebooks are mounted at `/home/jovyan/notebooks`, data at `/home/jovyan/data`.
 Use these paths when reading or writing files from PySpark.

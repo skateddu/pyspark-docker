@@ -2,6 +2,11 @@
 # Additional Python libraries
 # =============================================================================
 
+# --- Spark performance ---
+# Enables Arrow-optimized conversion for toPandas() / createDataFrame() and
+# Pandas UDFs; used by the example notebook (df.toPandas()).
+pyarrow
+
 # --- Visualization ---
 # matplotlib
 # seaborn
