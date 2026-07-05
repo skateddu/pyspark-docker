@@ -17,20 +17,25 @@ Docker lets you run applications inside **containers**: isolated environments th
 ### Windows
 
 1. Check that **WSL2** is installed. Open PowerShell and run:
+
    ```powershell
    wsl --status
    ```
+
    If the command shows the WSL version, you're good. If you get an error, install it by opening PowerShell **as administrator**:
+
    ```powershell
    wsl --install
    ```
+
    Restart your PC if prompted. Full guide: [Install WSL](https://learn.microsoft.com/en-us/windows/wsl/install).
 
-2. Download and install [Docker Desktop for Windows](https://docs.docker.com/desktop/setup/install/windows-install/).
+2. Download and install [Docker Desktop for Windows](https://docs.docker.com/desktop/setup/install/windows-install/). Alternatively, it can be installed from the [Docker Desktop app on the Microsoft Store](https://apps.microsoft.com/detail/XP8CBJ40XLBWKX).
 
 3. On first launch Docker Desktop will ask to use the WSL2 backend — accept.
 
 4. Verify by opening a terminal:
+
    ```bash
    docker --version
    ```
