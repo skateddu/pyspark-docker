@@ -210,3 +210,7 @@ __marimo__/
 spark-warehouse/
 metastore_db/
 derby.log
+
+# Claude Code
+.claude/
+CLAUDE.md
