@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  notebooks:
+    name: Build image and run notebooks
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Validate docker-compose.yml
+        run: docker compose config --quiet
+
+      - name: Build image
+        run: docker build --tag pyspark-docker:ci .
+
+      # The container runs as jovyan (uid 1000), while the checkout belongs to
+      # the runner user: make data/ writable so notebooks can save outputs.
+      - name: Make data folder writable
+        run: chmod -R a+rwX data
+
+      # SPARK_DRIVER_MEMORY (set in .env / docker-compose.yml) must reach the
+      # driver JVM: with 2g the max heap is well above the 1g default.
+      - name: Check driver memory setting
+        run: |
+          docker run --rm --env SPARK_DRIVER_MEMORY=2g pyspark-docker:ci python -c '
+          from pyspark.sql import SparkSession
+          spark = SparkSession.builder.getOrCreate()
+          heap = spark.sparkContext._jvm.java.lang.Runtime.getRuntime().maxMemory()
+          print(f"Driver max heap: {heap / 1024**3:.2f} GiB")
+          assert heap > 1.5 * 1024**3, "SPARK_DRIVER_MEMORY was not applied"
+          '
+
+      - name: Execute notebooks
+        run: |
+          docker run --rm \
+            --volume "$PWD/notebooks:/home/jovyan/notebooks:ro" \
+            --volume "$PWD/data:/home/jovyan/data" \
+            pyspark-docker:ci \
+            bash -c 'jupyter nbconvert --to notebook --execute \
+              --ExecutePreprocessor.timeout=600 \
+              --output-dir /tmp/executed \
+              /home/jovyan/notebooks/*.ipynb'

@@ -1,0 +1,11 @@
+.git
+.gitignore
+.env
+.env.example
+.dockerignore
+data
+notebooks
+LICENSE
+README.md
+.github
+**/.ipynb_checkpoints
