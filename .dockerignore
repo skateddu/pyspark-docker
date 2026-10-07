@@ -7,3 +7,5 @@ data
 notebooks
 LICENSE
 README.md
+.github
+**/.ipynb_checkpoints

@@ -1,0 +1,7 @@
+# Normalize line endings: LF in the repository and in the working tree, so
+# files copied or mounted into the (Linux) container never contain CRLF.
+* text=auto eol=lf
+
+# Binary data files
+*.parquet binary
+*.orc binary

@@ -13,4 +13,6 @@ services:
       - JUPYTER_TOKEN=${JUPYTER_TOKEN:-pyspark}
       - PYSPARK_PYTHON=python3
       - PYSPARK_DRIVER_PYTHON=python3
-    restart: unless-stopped
+      # Max JVM heap of the Spark driver (read by spark-submit when a
+      # SparkSession starts). In local mode the driver also runs the executors.
+      - SPARK_DRIVER_MEMORY=${SPARK_DRIVER_MEMORY:-1g}
