@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # Base image in Dockerfile (quay.io/jupyter/pyspark-notebook:spark-x.y.z)
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+
+  # Actions used in .github/workflows
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
