@@ -131,7 +131,7 @@ The datasets used by notebooks 02 and 03 (`data/input/sales.csv` and `data/input
 
 ## Versions
 
-The image is pinned to `quay.io/jupyter/pyspark-notebook:spark-4.1.2` (Spark 4.1.2, Python 3.13), instead of floating `:latest`, so that everyone building this repo gets the same environment. Spark 4 is a major version bump from the 3.5.x line used when this repo was first created — the DataFrame/SQL APIs used in the example notebook are unaffected, but if you bring in older PySpark code, check it against the [Spark 4.0 migration notes](https://spark.apache.org/docs/latest/api/python/migration_guide/pyspark_upgrade.html) first.
+The image is pinned to `quay.io/jupyter/pyspark-notebook:spark-4.2.0` (Spark 4.2.0, Python 3.13, Java 21), instead of floating `:latest`, so that everyone building this repo gets the same environment. Spark 4 is a major version bump from the 3.5.x line used when this repo was first created — the DataFrame/SQL APIs used in the notebooks are unaffected, but if you bring in older PySpark code, check it against the [Spark 4.0 migration notes](https://spark.apache.org/docs/latest/api/python/migration_guide/pyspark_upgrade.html) first.
 
 To upgrade later, pick a new tag from the [pyspark-notebook tags on quay.io](https://quay.io/repository/jupyter/pyspark-notebook?tab=tags), update the `FROM` line in `Dockerfile`, and rebuild with `docker compose up --build`. On GitHub, Dependabot checks for new tags every week and opens a pull request with the update; the CI runs all the notebooks on it, so a green check means the new version works with them.
 
