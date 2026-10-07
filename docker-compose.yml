@@ -3,8 +3,7 @@ services:
     build: .
     ports:
       - "${JUPYTER_PORT:-8888}:8888"
-      # Spark UI: 4040 for the first SparkSession, 4041+ for each additional
-      # concurrent session (e.g. a second notebook with an active session).
+      # Spark UI: 4040 for the first SparkSession, 4041+ for each additional concurrent session.
       - "4040-4045:4040-4045"
     volumes:
       - ./notebooks:/home/jovyan/notebooks
@@ -13,6 +12,5 @@ services:
       - JUPYTER_TOKEN=${JUPYTER_TOKEN:-pyspark}
       - PYSPARK_PYTHON=python3
       - PYSPARK_DRIVER_PYTHON=python3
-      # Max JVM heap of the Spark driver (read by spark-submit when a
-      # SparkSession starts). In local mode the driver also runs the executors.
+      # Max JVM heap of the Spark driver. In local mode the driver also runs the executors.
       - SPARK_DRIVER_MEMORY=${SPARK_DRIVER_MEMORY:-1g}
