@@ -80,6 +80,7 @@ pyspark-docker/
 ├── .env.example                # Configuration template (copy as .env)
 ├── .gitignore                  # Files ignored by Git
 ├── .dockerignore               # Files excluded from Docker build
+├── .github/workflows/ci.yml    # CI: builds the image and runs the notebooks
 ├── LICENSE                     # MIT License
 ├── README.md                   # This file
 ├── notebooks/
@@ -117,6 +118,10 @@ The image is pinned to `quay.io/jupyter/pyspark-notebook:spark-4.1.2` (Spark 4.1
 To upgrade later, pick a new tag from the [pyspark-notebook tags on quay.io](https://quay.io/repository/jupyter/pyspark-notebook?tab=tags), update the `FROM` line in `Dockerfile`, and rebuild with `docker compose up --build`.
 
 ## Adding Python libraries
+
+The base image already includes the most common data science libraries (`pandas`, `pyarrow`, `matplotlib`, `seaborn`, `scikit-learn`, `scipy`, `statsmodels`, `sqlalchemy`, ...): you can import them directly, without adding anything. The full list is in the header of `requirements.txt`, or run `docker compose exec pyspark pip list`.
+
+To add a library that is **not** already included:
 
 1. Open `requirements.txt`
 2. Uncomment or add the libraries you need
@@ -174,6 +179,8 @@ When a SparkSession is active, you can monitor Spark jobs at:
 
 - **Spark UI**: [http://localhost:4040](http://localhost:4040)
 
+Each SparkSession gets its own UI: if a session is already running (e.g. in another notebook), the next one uses port 4041, then 4042, and so on. Ports 4040-4045 are published, and the example notebook prints the correct URL when it creates the session.
+
 ## Troubleshooting
 
 ### Docker not running
@@ -191,6 +198,8 @@ Bind for 0.0.0.0:8888 failed: port is already allocated
 ```
 
 Change `JUPYTER_PORT` in your `.env` file (e.g. `JUPYTER_PORT=8889`).
+
+If the conflict is on a Spark UI port (4040-4045), another program (often another Spark/PySpark installation) is using it: stop it, or change the host side of the `4040-4045:4040-4045` mapping in `docker-compose.yml` (e.g. `5040-5045:4040-4045`).
 
 ### Files not visible in the notebook
 
