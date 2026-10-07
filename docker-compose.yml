@@ -3,13 +3,14 @@ services:
     build: .
     ports:
       - "${JUPYTER_PORT:-8888}:8888"
-      - "${SPARK_UI_PORT:-4040}:4040"
+      # Spark UI: 4040 for the first SparkSession, 4041+ for each additional
+      # concurrent session (e.g. a second notebook with an active session).
+      - "4040-4045:4040-4045"
     volumes:
       - ./notebooks:/home/jovyan/notebooks
       - ./data:/home/jovyan/data
     environment:
       - JUPYTER_TOKEN=${JUPYTER_TOKEN:-pyspark}
-      - SPARK_UI_PORT=${SPARK_UI_PORT:-4040}
       - PYSPARK_PYTHON=python3
       - PYSPARK_DRIVER_PYTHON=python3
     restart: unless-stopped

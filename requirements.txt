@@ -1,20 +1,26 @@
 # =============================================================================
 # Additional Python libraries
 # =============================================================================
-
-# --- Spark performance ---
-# Enables Arrow-optimized conversion for toPandas() / createDataFrame() and
-# Pandas UDFs; used by the example notebook (df.toPandas()).
-pyarrow
-
-# --- Visualization ---
-# matplotlib
-# seaborn
+#
+# The base image (quay.io/jupyter/pyspark-notebook) already ships with many
+# libraries, installed via conda and version-matched with each other. Do NOT
+# add them here: reinstalling them with pip can cause version conflicts.
+#
+# Already included:
+#   - Spark / Arrow: pyspark, pyarrow, pandas, grpcio (Spark Connect)
+#   - Visualization: matplotlib, seaborn, altair, bokeh
+#   - Machine Learning / stats: scikit-learn, scipy, statsmodels
+#   - Data: sqlalchemy, openpyxl, xlrd, h5py, dask
+#
+# Check what is installed with:
+#   docker compose exec pyspark pip list
+#
+# Add below only libraries that are NOT already in the image, then rebuild
+# with: docker compose up --build
 
 # --- Machine Learning ---
-# scikit-learn
 # torch
 
 # --- Data ---
-# sqlalchemy
 # boto3
+# delta-spark
